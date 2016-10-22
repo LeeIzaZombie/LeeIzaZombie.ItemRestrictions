@@ -1,27 +1,21 @@
 ﻿using Rocket.API;
 using Rocket.API.Collections;
 using Rocket.Core;
-using Rocket.Core.Logging;
 using Rocket.Core.Plugins;
 using Rocket.Unturned.Chat;
-using Rocket.Unturned.Enumerations;
-using Rocket.Unturned.Events;
 using Rocket.Unturned.Items;
 using Rocket.Unturned.Player;
 using SDG.Unturned;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 using UnityEngine;
+using Logger = Rocket.Core.Logging.Logger;
 
-namespace ItemRestrictions
+namespace LeeIzaZombie.ItemRestrictions
 {
-    public class PluginIR : RocketPlugin<Config>
+    public class ItemRestrictions : RocketPlugin<ItemRestrictionsConfiguration>
     {
-        public static PluginIR Instance;
+        public static ItemRestrictions Instance;
         public string version = "2.0";
 
         public override TranslationList DefaultTranslations
@@ -38,14 +32,14 @@ namespace ItemRestrictions
 
         protected override void Load()
         {
-            PluginIR.Instance = this;
+            Instance = this;
 
-            Rocket.Core.Logging.Logger.LogWarning("Setting up Item Restrictions by LeeIzaZombie. v" + version);
-            Rocket.Core.Logging.Logger.LogWarning("--");
+            Logger.LogWarning("Setting up Item Restrictions by LeeIzaZombie. v" + version);
+            Logger.LogWarning("--");
             int count = 0; foreach (ushort item in this.Configuration.Instance.Items) { count++; }
-            Rocket.Core.Logging.Logger.LogWarning("Black listed items found: " + count);
-            Rocket.Core.Logging.Logger.LogWarning("--");
-            Rocket.Core.Logging.Logger.LogWarning("Item Restrictions is ready!");
+            Logger.LogWarning("Black listed items found: " + count);
+            Logger.LogWarning("--");
+            Logger.LogWarning("Item Restrictions is ready!");
         }
 
         private void CheckInventory(UnturnedPlayer player)
@@ -71,7 +65,9 @@ namespace ItemRestrictions
             }
         }
 
-        protected override void Unload() { }
+        protected override void Unload() {
+
+        }
 
         public List<UnturnedPlayer> Players()
         {
@@ -110,25 +106,6 @@ namespace ItemRestrictions
 
                 Second = DateTime.Now;
             }
-        }
-    }
-
-    public class Config : IRocketPluginConfiguration
-    {
-        [XmlArrayItem(ElementName = "Item")]
-        public List<ushort> Items;
-
-        public bool ignoreAdmin;
-        public float CheckInterval = 1.0F;
-
-        public void LoadDefaults()
-        {
-            this.ignoreAdmin = true;
-            this.Items = new List<ushort>()
-            {
-                519,
-                1050
-            };
         }
     }
 }
