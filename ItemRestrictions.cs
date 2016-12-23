@@ -56,7 +56,7 @@ namespace LeeIzaZombie.ItemRestrictions
                         {
                             if (player.Player.inventory.getItem(page, index).item.id == item)
                             {
-                                UnturnedChat.Say(player, Translate("item_notPermitted", UnturnedItems.GetItemAssetById(item).name), Color.red);
+                                UnturnedChat.Say(player, Translate("item_notPermitted", UnturnedItems.GetItemAssetById(item).itemName), Color.red);
                                 player.Player.inventory.removeItem(page, index);
                             }
                         }
