@@ -44,8 +44,9 @@ namespace LeeIzaZombie.ItemRestrictions
 
         private void CheckInventory(UnturnedPlayer player)
         {
-            foreach (ushort item in this.Configuration.Instance.Items)
+            for(int i = 0; i < this.Configuration.Instance.Items.Count; i++)
             {
+                ushort item = this.Configuration.Instance.Items[i];
                 try
                 {
                     for (byte page = 0; page < PlayerInventory.PAGES; page++)
@@ -55,7 +56,7 @@ namespace LeeIzaZombie.ItemRestrictions
                         {
                             if (player.Player.inventory.getItem(page, index).item.id == item)
                             {
-                                UnturnedChat.Say(player, Translate("item_notPermitted", UnturnedItems.GetItemAssetById(item).name), Color.red);
+                                UnturnedChat.Say(player, Translate("item_notPermitted", UnturnedItems.GetItemAssetById(item).itemName), Color.red);
                                 player.Player.inventory.removeItem(page, index);
                             }
                         }
@@ -73,8 +74,9 @@ namespace LeeIzaZombie.ItemRestrictions
         {
             List<UnturnedPlayer> list = new List<UnturnedPlayer>();
 
-            foreach (SteamPlayer sp in Provider.clients)
+            for(int i = 0; i < Provider.clients.Count; i++)
             {
+                SteamPlayer sp = Provider.clients[i];
                 UnturnedPlayer p = UnturnedPlayer.FromSteamPlayer(sp);
                 list.Add(p);
             }
@@ -95,8 +97,9 @@ namespace LeeIzaZombie.ItemRestrictions
             {
                 if (Provider.clients.Count > 0)
                 {
-                    foreach (UnturnedPlayer player in Players())
+                    for(int i = 0; i < Players().Count; i++)
                     {
+                        UnturnedPlayer player = Players()[i];
                         if (!R.Permissions.HasPermission(player, "ir.safe"))
                             CheckInventory(player);
                         else if (player.IsAdmin && !Configuration.Instance.ignoreAdmin && !R.Permissions.HasPermission(player, "ir.safe"))
